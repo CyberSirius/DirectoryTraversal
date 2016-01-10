@@ -10,30 +10,27 @@ public class Store {
     private ArrayBlockingQueue<Product> store;
     private boolean isProducing = true;
 
-    public void setProducing(boolean producing) {
-        isProducing = producing;
+    public Store() {
+        this.store = new ArrayBlockingQueue<>(Constants.STORE_CAPACITY);
+    }
+
+    public void setProducingToFalse() {
+        isProducing = false;
     }
 
     public boolean isProducing() {
         return isProducing;
     }
 
-    public Store() {
-        this.store = new ArrayBlockingQueue<>(Constants.STORE_CAPACITY);
-    }
-
     public void add(Product product) throws InterruptedException {
-        store.put(product);//// TODO: 09-Jan-16 don't know what im doing
+        store.put(product);
     }
 
     public Product get() throws InterruptedException {
-        return store.take();
+        return store.poll(1, TimeUnit.SECONDS);
     }
 
     public boolean isEmpty() {
         return store.isEmpty();
-    }
-    public void remove(Product product){
-        store.remove(product);
     }
 }

@@ -1,6 +1,9 @@
 package bg.rashev.traversal;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Created by CyberSirius on 09-Jan-16.
@@ -26,7 +29,6 @@ public class Producer implements Runnable {
                 store.add(new Product(line, fileName, lineCounter));
                 lineCounter++;
             }
-            //System.out.println("producer finished");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {

@@ -1,42 +1,43 @@
 package bg.rashev.traversal;
 
-import java.io.*;
-import java.sql.Time;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.io.File;
+import java.util.concurrent.*;
 
 public class Main {
     private static ExecutorService producerPool;
-    private static ExecutorService consumerPool;
     private static Store store;
 
-    public static void main(String[] args) throws InterruptedException {
-        File file = new File("D:\\Work\\Mini-mathematica");
-        producerPool = Executors.newFixedThreadPool(10);
-        consumerPool = Executors.newFixedThreadPool(10);
+    public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
+        File file = new File("D:\\Work");
+        producerPool = Executors.newFixedThreadPool(Constants.PRODUCER_THREAD_COUNT);
+        ExecutorService consumerPool = Executors.newFixedThreadPool(Constants.CONSUMER_THREAD_COUNT);
         store = new Store();
+        String input = "java";
+        for (int i = 0; i < Constants.CONSUMER_THREAD_COUNT; i++) {
+            consumerPool.execute(new Consumer(store, input));
+        }
         long mills = System.currentTimeMillis();
         directoryTraverse(file);
         producerPool.shutdown();
+        producerPool.awaitTermination(1, TimeUnit.MINUTES);
+        store.setProducingToFalse();
         while (true) {
-            if (producerPool.isShutdown()) {
-                store.setProducing(false);
+            if (store.isEmpty()) {
                 consumerPool.shutdown();
                 break;
             }
         }
+
         System.out.println(System.currentTimeMillis() - mills);
     }
 
     public static void directoryTraverse(File file) {
-        //if not directory exception
         // TODO: 09-Jan-16 may try threads
 
         for (File tempFile : file.listFiles()) {
             if (tempFile.isFile()) {
-                consumerPool.execute(new Consumer(store, "java"));
                 producerPool.execute(new Producer(tempFile, store));
+
             } else directoryTraverse(tempFile);
         }
     }
