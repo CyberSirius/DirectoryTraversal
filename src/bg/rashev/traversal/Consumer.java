@@ -22,6 +22,7 @@ public class Consumer implements Runnable {
                     break;
                 if (product.getLine().contains(input)) {
                     System.out.println(product);
+                    Constants.numberOfOccurrences.incrementAndGet();
                 }
             }
         } catch (InterruptedException e) {
