@@ -6,9 +6,9 @@ package bg.rashev.traversal;
 public class Product {
 
 
-    private String line;
-    private String fileName;
-    private int lineNumber;
+    private final String line;
+    private final String fileName;
+    private final int lineNumber;
 
     public Product(String line, String fileName, int lineNumber) {
         this.line = line;
@@ -22,6 +22,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "File name: " + fileName + " line:" + lineNumber + ": " + line;//// TODO: 09-Jan-16 test
+        return "File name: " + fileName + " line:" + lineNumber + ": " + line;
     }
 }

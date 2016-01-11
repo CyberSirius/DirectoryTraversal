@@ -3,9 +3,9 @@ package bg.rashev.traversal;
 /**
  * Created by CyberSirius on 09-Jan-16.
  */
-public class Consumer implements Runnable {
-    private Store store;
-    private String input;
+class Consumer implements Runnable {
+    private final Store store;
+    private final String input;
 
     public Consumer(Store store, String input) {
         this.store = store;

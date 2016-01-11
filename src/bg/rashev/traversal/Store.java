@@ -1,17 +1,17 @@
 package bg.rashev.traversal;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by CyberSirius on 09-Jan-16.
  */
-public class Store {
-    private ArrayBlockingQueue<Product> store;
+class Store {
+    private final LinkedBlockingDeque<Product> store;//todo test with linked deque
     private boolean isProducing = true;
 
     public Store() {
-        this.store = new ArrayBlockingQueue<>(Constants.STORE_CAPACITY);
+        this.store = new LinkedBlockingDeque<>(Constants.STORE_CAPACITY);
     }
 
     public void setProducingToFalse() {
@@ -23,14 +23,10 @@ public class Store {
     }
 
     public void add(Product product) throws InterruptedException {
-        store.put(product);
+        store.putLast(product);
     }
-
     public Product get() throws InterruptedException {
-        return store.poll(1, TimeUnit.SECONDS);
+        return store.pollFirst(1, TimeUnit.SECONDS);//returns null if 1 second elapses, before an element is available (should be enough for one to become)
     }
 
-    public boolean isEmpty() {
-        return store.isEmpty();
-    }
 }
