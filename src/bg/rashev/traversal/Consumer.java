@@ -1,8 +1,5 @@
 package bg.rashev.traversal;
 
-/**
- * Created by CyberSirius on 09-Jan-16.
- */
 class Consumer implements Runnable {
     private final Store store;
     private final String input;
@@ -20,8 +17,8 @@ class Consumer implements Runnable {
                 product = store.get();
                 if (product == null)
                     break;
-                if (product.getLine().contains(input)) {
-                    System.out.println(product);
+                if (product.containsString(input)) {
+                    product.print();
                     Constants.numberOfOccurrences.incrementAndGet();
                 }
             }

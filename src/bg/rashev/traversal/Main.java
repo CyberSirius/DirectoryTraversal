@@ -7,8 +7,8 @@ import java.util.concurrent.TimeoutException;
 class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
-        File file = new File("D:\\Work\\Enigma");
-        String input = "java";
+        File file = new File("D:\\TestDirectoryTree");
+        String input = "sonder";
         DirectoryCrawler directoryCrawler = new DirectoryCrawler(file, input);
         Test test = new Test(directoryCrawler);
         //test.test(Constants.TEST_LOWER_BOUND_PRODUCER, Constants.TEST_UPPER_BOUND_PRODUCER, Constants.TEST_LOWER_BOUND_CONSUMER, Constants.TEST_UPPER_BOUND_CONSUMER);

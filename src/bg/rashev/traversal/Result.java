@@ -10,10 +10,10 @@ public class Result {
     private final boolean isCorrect;
     private final int numberOfOccurrences;
 
-    public Result(long time, int prodThreads, int consThreads, boolean isCorrect, int numberOfOccurrences) {
+    public Result(long time, int producerThreads, int consumerThreads, boolean isCorrect, int numberOfOccurrences) {
         this.time = time;
-        this.numberOfProducerThreads = prodThreads;
-        this.numberOfConsumerThreads = consThreads;
+        this.numberOfProducerThreads = producerThreads;
+        this.numberOfConsumerThreads = consumerThreads;
         this.isCorrect = isCorrect;
         this.numberOfOccurrences = numberOfOccurrences;
     }
@@ -59,6 +59,4 @@ public class Result {
     private int getNumberOfOccurrences() {
         return numberOfOccurrences;
     }
-
-
 }
