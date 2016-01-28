@@ -1,6 +1,8 @@
 package fmi.uni.sofia.bg.store;
 
 
+import fmi.uni.sofia.bg.constants.Constants;
+
 public class Product {
 
 
@@ -23,7 +25,8 @@ public class Product {
     }
 
     public void print() {
-        System.out.println(this);
+        Constants.stringBuilder.append(this.toString()).append("\n");
+        Constants.numberOfOccurrences.incrementAndGet();
     }
 
     @Override

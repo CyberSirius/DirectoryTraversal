@@ -19,14 +19,13 @@ public class Producer implements Runnable {
 
     @Override
     public void run() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {//todo test with BufferedInputStream
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
             String line;
             String fileName = file.getName();
             int lineCounter = 1;
             while ((line = fileReader.readLine()) != null) {
                 store.add(new Product(line, fileName, lineCounter));
-                //Thread.sleep(1);// TODO: 14-Jan-16 i have no idea if I need this, but it's 10 times faster without it :D
-                lineCounter++;// TODO: 14-Jan-16 try reading a couple of lines at the same time with threads
+                lineCounter++;
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

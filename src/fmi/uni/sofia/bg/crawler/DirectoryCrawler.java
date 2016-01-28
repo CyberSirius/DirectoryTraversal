@@ -7,7 +7,10 @@ import fmi.uni.sofia.bg.threads.Consumer;
 import fmi.uni.sofia.bg.threads.Producer;
 import fmi.uni.sofia.bg.threads.ThreadConfiguration;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +51,14 @@ public class DirectoryCrawler {
         }
 
         long t1 = System.currentTimeMillis();
+        //Constants.goodProducts.forEach(System.out::println);
+        //OutputStream out = new BufferedOutputStream(System.out);
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        try {
+            writer.write(Constants.stringBuilder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new Result(t1 - t0, threadConfiguration, Constants.numberOfOccurrences.get() == Constants.ACTUAL_NUMBER_OF_OCCURRENCES, Constants.numberOfOccurrences.get());
     }
 

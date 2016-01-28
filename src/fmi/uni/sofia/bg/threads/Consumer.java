@@ -1,6 +1,5 @@
 package fmi.uni.sofia.bg.threads;
 
-import fmi.uni.sofia.bg.constants.Constants;
 import fmi.uni.sofia.bg.store.Product;
 import fmi.uni.sofia.bg.store.Store;
 
@@ -23,7 +22,6 @@ public class Consumer implements Runnable {
                     break;
                 if (product.containsString(input)) {
                     product.print();
-                    Constants.numberOfOccurrences.incrementAndGet();
                 }
             }
         } catch (InterruptedException e) {

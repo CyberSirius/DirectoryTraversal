@@ -13,7 +13,7 @@ class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
         File file = new File("D:\\TestDirectoryTree");
-        String input = "sonder";
+        String input = "Strashimir Rashev 61702";
         DirectoryCrawler directoryCrawler = new DirectoryCrawler(file, input);
         Test test = new Test(directoryCrawler);
         ThreadConfiguration threadConfiguration = new ThreadConfiguration(Constants.PRODUCER_THREAD_COUNT, Constants.CONSUMER_THREAD_COUNT);
