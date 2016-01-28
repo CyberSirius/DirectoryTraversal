@@ -1,4 +1,4 @@
-package bg.rashev.traversal;
+package fmi.uni.sofia.bg.store;
 
 
 public class Product {

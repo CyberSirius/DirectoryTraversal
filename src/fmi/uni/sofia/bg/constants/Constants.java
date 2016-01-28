@@ -1,9 +1,9 @@
-package bg.rashev.traversal;
+package fmi.uni.sofia.bg.constants;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-class Constants {
+public class Constants {
     public static final int STORE_CAPACITY = 10000;
 
     public static final int CONSUMER_THREAD_COUNT = 500;

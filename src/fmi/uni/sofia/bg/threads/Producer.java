@@ -1,11 +1,14 @@
-package bg.rashev.traversal;
+package fmi.uni.sofia.bg.threads;
+
+import fmi.uni.sofia.bg.store.Product;
+import fmi.uni.sofia.bg.store.Store;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-class Producer implements Runnable {
+public class Producer implements Runnable {
     private final File file;
     private final Store store;
 

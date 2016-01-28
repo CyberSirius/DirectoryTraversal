@@ -1,6 +1,10 @@
-package bg.rashev.traversal;
+package fmi.uni.sofia.bg.threads;
 
-class Consumer implements Runnable {
+import fmi.uni.sofia.bg.constants.Constants;
+import fmi.uni.sofia.bg.store.Product;
+import fmi.uni.sofia.bg.store.Store;
+
+public class Consumer implements Runnable {
     private final Store store;
     private final String input;
 
