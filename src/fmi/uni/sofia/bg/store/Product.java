@@ -21,11 +21,11 @@ public class Product {
     }
 
     public boolean containsString(String string) {
-        return getLine().contains(string);// TODO: 14-Jan-16 further tests between contains and indexOf!=-1
+        return getLine().contains(string);
     }
 
     public void print() {
-        Constants.stringBuilder.append(this.toString()).append("\n");
+        System.out.println(this);
         Constants.numberOfOccurrences.incrementAndGet();
     }
 

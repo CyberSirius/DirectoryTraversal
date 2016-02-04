@@ -7,10 +7,7 @@ import fmi.uni.sofia.bg.threads.Consumer;
 import fmi.uni.sofia.bg.threads.Producer;
 import fmi.uni.sofia.bg.threads.ThreadConfiguration;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class DirectoryCrawler {
     private final File file;
     private final String input;
+    ExecutorService consumerPool;
     private ExecutorService producerPool;
     private Store store;
 
@@ -29,41 +27,32 @@ public class DirectoryCrawler {
 
     public Result searchForWordInDirectoryTree(ThreadConfiguration threadConfiguration) {
         producerPool = Executors.newFixedThreadPool(threadConfiguration.getProducerThreadCount());
-        ExecutorService consumerPool = Executors.newFixedThreadPool(threadConfiguration.getConsumerThreadCount());
+        consumerPool = Executors.newFixedThreadPool(threadConfiguration.getConsumerThreadCount());
         store = new Store();
-        //Thread consumerThread;
         Constants.numberOfOccurrences.set(0);
-        for (int i = 0; i < threadConfiguration.getConsumerThreadCount(); i++) {
-            consumerPool.execute(new Thread(new Consumer(store, input)));
-            //consumerThread = new Thread(new Consumer(store, input));
-            //consumerThread.start();
-        }
         long t0 = System.currentTimeMillis();
+        startConsumerThreads(threadConfiguration, consumerPool);
         directoryTraverse(this.file);
         producerPool.shutdown();
         try {
-            producerPool.awaitTermination(1, TimeUnit.DAYS);// TODO: 14-Jan-16 !isTerminated infinite loop looks to be slower, still not sold on awaitTermination
-            store.setProducingToFalse();
+            if (producerPool.awaitTermination(1, TimeUnit.DAYS))
+                store.setProducingToFalse();
             consumerPool.shutdown();
             consumerPool.awaitTermination(1, TimeUnit.DAYS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         long t1 = System.currentTimeMillis();
-        //Constants.goodProducts.forEach(System.out::println);
-        //OutputStream out = new BufferedOutputStream(System.out);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
-        try {
-            writer.write(Constants.stringBuilder.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        return new Result(t1 - t0, threadConfiguration, Constants.numberOfOccurrences.get() == Constants.ACTUAL_NUMBER_OF_OCCURRENCES, Constants.ACTUAL_NUMBER_OF_OCCURRENCES);
+    }
+
+    private void startConsumerThreads(ThreadConfiguration threadConfiguration, ExecutorService consumerPool) {
+        for (int i = 0; i < threadConfiguration.getConsumerThreadCount(); i++) {
+            consumerPool.execute(new Consumer(store, input));
         }
-        return new Result(t1 - t0, threadConfiguration, Constants.numberOfOccurrences.get() == Constants.ACTUAL_NUMBER_OF_OCCURRENCES, Constants.numberOfOccurrences.get());
     }
 
     private void directoryTraverse(File file) {
-        // TODO: 14-Jan-16 maybe try a fork-join pool
         if (file.isDirectory()) {
             for (File tempFile : file.listFiles()) {
                 if (tempFile.isFile()) {

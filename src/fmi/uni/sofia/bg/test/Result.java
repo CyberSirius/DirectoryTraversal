@@ -18,7 +18,7 @@ public class Result {
         this.numberOfOccurrences = numberOfOccurrences;
     }
 
-    public static Result getMeanResult(Collection<Result> results) {
+    public static Result getMeanResult(Collection<Result> results, int numberOfRuns) {
         long newMean = 0;
         int newNumberOfOccurrences = 0;
         boolean newIsCorrect = true;
@@ -31,7 +31,7 @@ public class Result {
             if (!result.isCorrect())
                 newIsCorrect = false;
         }
-        return new Result(newMean / 3, threadConfiguration, newIsCorrect, newNumberOfOccurrences / 3);
+        return new Result(newMean / numberOfRuns, threadConfiguration, newIsCorrect, newNumberOfOccurrences / numberOfRuns);
     }
 
     @Override

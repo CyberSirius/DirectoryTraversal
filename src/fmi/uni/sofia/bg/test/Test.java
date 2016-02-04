@@ -14,10 +14,10 @@ public class Test {
         this.directoryCrawler = directoryCrawler;
     }
 
-    public void test(Collection<ThreadConfiguration> threadConfigurations) throws InterruptedException {
+    public void test(Collection<ThreadConfiguration> threadConfigurations, int numberOfRuns) {
         ArrayList<Result> results = new ArrayList<>();
         threadConfigurations.forEach(threadConfiguration -> {
-            Result resultOfThreeIdenticalRuns = getResultOfThreeIdenticalRuns(threadConfiguration);
+            Result resultOfThreeIdenticalRuns = getResultOfIdenticalRuns(threadConfiguration, numberOfRuns);
             results.add(resultOfThreeIdenticalRuns);
             System.out.println(resultOfThreeIdenticalRuns);
         });
@@ -25,11 +25,11 @@ public class Test {
         results.stream().sorted((r1, r2) -> Long.compare(r1.getTime(), r2.getTime())).forEach(System.out::println);
     }
 
-    private Result getResultOfThreeIdenticalRuns(ThreadConfiguration threadConfiguration) {
+    private Result getResultOfIdenticalRuns(ThreadConfiguration threadConfiguration, int numberOfRuns) {
         ArrayList<Result> results = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < numberOfRuns; i++) {
             results.add(directoryCrawler.searchForWordInDirectoryTree(threadConfiguration));
         }
-        return Result.getMeanResult(results);
+        return Result.getMeanResult(results, numberOfRuns);
     }
 }

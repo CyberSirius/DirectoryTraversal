@@ -27,7 +27,7 @@ public class Producer implements Runnable {
                 store.add(new Product(line, fileName, lineCounter));
                 lineCounter++;
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

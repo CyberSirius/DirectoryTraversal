@@ -14,18 +14,14 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Product product;
-            while (store.isProducing()) {
-                product = store.get();
-                if (product == null)
-                    break;
-                if (product.containsString(input)) {
-                    product.print();
-                }
+        Product product;
+        while (store.isProducing()) {
+            product = store.get();
+            if (product == null)
+                break;
+            if (product.containsString(input)) {
+                product.print();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
